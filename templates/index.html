@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>MemCachier Line</title>
+  <style type="text/css">
+    ul li {
+      list-style-type: none;
+    }
+  </style>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    $(function() {
+      $("input[data-submit-item]").live("click", function() {
+        $.ajax({
+          type: "POST",
+          url: "/add",
+          data: {
+            "text": $("#item").val()
+          },
+          success: function(data) {
+            $("#item-list").append(data);
+            $("#item").val("");
+          }
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>Line</h1>
+
+  <input type="text" id="item" placeholder="Type something ..." />
+  <input type="submit" value="Add" data-submit-item="true" />
+  
+  <p><strong>front</strong></p>
+  <ul id="item-list">
+    {% for item in line %}
+      <li>{{ item.text }}</li>
+    {% endfor %}
+  </ul>
+  <p><strong>back</strong></p>
+  <p><a href="/remove">remove</a></p>
+</body>
+</html>
