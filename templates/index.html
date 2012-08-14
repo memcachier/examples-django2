@@ -15,7 +15,8 @@
           type: "POST",
           url: "/add",
           data: {
-            "text": $("#item").val()
+            "text": $("#item").val(),
+            "csrfmiddlewaretoken": $('input[name~="csrfmiddlewaretoken"]').val()
           },
           success: function(data) {
             $("#item-list").append(data);
@@ -30,6 +31,7 @@
   <h1>Line</h1>
 
   <input type="text" id="item" placeholder="Type something ..." />
+  {% csrf_token %}
   <input type="submit" value="Add" data-submit-item="true" />
   
   <p><strong>front</strong></p>

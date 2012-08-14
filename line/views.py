@@ -1,8 +1,8 @@
 from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render_to_response, redirect
 from line.models import LineItem
 from django.core.cache import cache
+from django.core.context_processors import csrf
 import time
 
 LINE_KEY = "line"
@@ -13,9 +13,10 @@ def index(request):
     time.sleep(2) # simulate a slow query.
     line = _get_line()
     cache.set(LINE_KEY, line)
-  return render_to_response('index.html', {'line': line})
+  c = {'line': line}
+  c.update(csrf(request))
+  return render_to_response('index.html', c)
 
-@csrf_exempt
 def add(request):
   item = LineItem(text=request.POST["text"])
   item.save()
