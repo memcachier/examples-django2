@@ -14,7 +14,7 @@ Detailed instructions for developing this app are available
 database](https://devcenter.heroku.com/articles/local-postgresql) and
 be sure you have Python installed, too.
 
-Run the following commands to get started running this app locally.
+Run the following commands to get started running this app locally:
 
 ~~~~ .sh
 $ git clone https://github.com/memcachier/examples-django2.git
