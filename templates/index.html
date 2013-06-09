@@ -88,11 +88,9 @@
         and removed from the back of the queue, ala first-in-first-out
         (FIFO).</p>
 
-      <form action="">
-        {% csrf_token %}
-        <input type="text" id="item" placeholder="Type something ..." />
-        <input class="btn" type="button" value="Add" data-submit-item="true" />
-      </form>
+      {% csrf_token %}
+      <input type="text" id="item" placeholder="Type something ..." />
+      <input class="btn" type="button" value="Add" data-submit-item="true" />
 
       <p><strong class="lead">front</strong></p>
       <ul id="item-list">
