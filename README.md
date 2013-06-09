@@ -10,10 +10,6 @@ Detailed instructions for developing this app are available
 
 ## Running Locally
 
-[Setup a local Postgres
-database](https://devcenter.heroku.com/articles/local-postgresql) and
-be sure you have Python installed, too.
-
 Run the following commands to get started running this app locally:
 
 ~~~~ .sh
@@ -45,7 +41,8 @@ $ heroku run python manage.py syncdb
 $ heroku open
 ~~~~
 
-Note: when running `syncdb` you will be prompted to create a superuser.  Respond with `no`.
+Note: when running `syncdb` you will be prompted to create a
+superuser. Respond with `no`.
 
 ## Get involved!
 
