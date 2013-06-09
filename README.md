@@ -3,7 +3,7 @@
 This is an example Django queue app (first in, first out) that uses
 the [MemCachier add-on](https://addons.heroku.com/memcachier) in
 [Heroku](http://www.heroku.com/). A running version of this app can be
-found [here](memcachier-examples-django2.herokuapp.com).
+found [here](http://memcachier-examples-django2.herokuapp.com).
 
 Detailed instructions for developing this app are available
 [here](https://devcenter.heroku.com/articles/django-memcache).
