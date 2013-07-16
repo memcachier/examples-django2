@@ -1,5 +1,5 @@
 """
-WSGI config for django_line project.
+WSGI config for django_queue project.
 
 This module contains the WSGI application used by Django's development server
 and any production WSGI deployments. It should expose a module-level variable
@@ -15,7 +15,7 @@ framework.
 """
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_line.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_queue.settings")
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

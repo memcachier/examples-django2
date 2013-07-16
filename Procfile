@@ -1,1 +1,1 @@
-web: gunicorn django_line.wsgi
+web: gunicorn django_queue.wsgi

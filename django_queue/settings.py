@@ -35,7 +35,7 @@ CACHES = get_cache()
 # what dj_database_url is looking for).
 curdir = os.path.dirname(os.path.abspath(
     inspect.getfile(inspect.currentframe())))
-sqlite_db = 'sqlite://localhost/' + curdir + '/../line.sqlite'
+sqlite_db = 'sqlite://localhost/' + curdir + '/../queue.sqlite'
 
 DATABASES = {'default': dj_database_url.config(default=sqlite_db)}
 
@@ -81,9 +81,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'django_line.urls'
+ROOT_URLCONF = 'django_queue.urls'
 
-WSGI_APPLICATION = 'django_line.wsgi.application'
+WSGI_APPLICATION = 'django_queue.wsgi.application'
 
 TEMPLATE_DIRS = (
     "templates",
@@ -96,7 +96,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'line',
+    'queue',
 )
 
 LOGGING = {

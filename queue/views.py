@@ -9,60 +9,60 @@
 
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
-from line.models import LineItem
+from queue.models import QueueItem
 from django.core.cache import cache
 from django.core.context_processors import csrf
 import time
 
-LINE_KEY = "line"
+QUEUE_KEY = "queue"
 
-# index.html -- display all lines from the queue.
+# index.html -- display all itms from the queue.
 def index(request):
   # try cache
-  line = cache.get(LINE_KEY)
-  if not line:
+  queue = cache.get(QUEUE_KEY)
+  if not queue:
     # not in cache -- so hit db, then store in cache.
-    line = db_slow_index()
-    cache.set(LINE_KEY, line)
+    queue = db_slow_index()
+    cache.set(QUEUE_KEY, queue)
 
   # display the queue to the user.
-  c = {'line': line}
+  c = {'queue': queue}
   c.update(csrf(request))
   return render_to_response('index.html', c)
 
 
-# /add -- add a new line to the front of the queue.
+# /add -- add a new item to the front of the queue.
 def add(request):
-  item = LineItem(text=request.POST["text"])
+  item = QueueItem(text=request.POST["text"])
   item.save()
   # Update cache -- have to hit DB.
-  cache.set(LINE_KEY, db_get_lines())
+  cache.set(QUEUE_KEY, db_get_queue())
   # ....^.............^
   # We may be tempted to use the `append` memcache method here instead of
-  # retrieving the lines again. However, we are using pythons serialization of
-  # the LineItem data structure, so `append` would not nessecarily work. We
+  # retrieving the queue again. However, we are using pythons serialization of
+  # the QueueItem data structure, so `append` would not nessecarily work. We
   # could use append though if we used our own serialization method.
   #
   return HttpResponse("%s" % item.text)
 
 
-# /remove -- remove the last line from the queue.
+# /remove -- remove the last item from the queue.
 def remove(request):
-  items = LineItem.objects.order_by("id")[:1]
+  items = QueueItem.objects.order_by("id")[:1]
   if len(items) != 0:
     items[0].delete()
     # update cache -- have to hit DB.
-    cache.set(LINE_KEY, db_get_lines())
+    cache.set(QUEUE_KEY, db_get_queue())
   return redirect("/")
 
 
 # A 'slow' database lookup for the entire queue.
 def db_slow_index():
   time.sleep(2) # simulate a slow query.
-  return db_get_lines()
+  return db_get_queue()
 
 
 # A database lookup for the entire queue.
-def db_get_lines():
-  return LineItem.objects.order_by("id")
+def db_get_queue():
+  return QueueItem.objects.order_by("id")
 
