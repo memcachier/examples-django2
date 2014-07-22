@@ -1,7 +1,7 @@
 # MemCachier on Heroku and Django tutorial
 
-This is an example Django queue app (first in, first out) that uses
-the [MemCachier add-on](https://addons.heroku.com/memcachier) in
+This is an example Django (1.6) queue app (first in, first out) that
+uses the [MemCachier add-on](https://addons.heroku.com/memcachier) in
 [Heroku](http://www.heroku.com/). A running version of this app can be
 found [here](http://memcachier-examples-django2.herokuapp.com).
 
