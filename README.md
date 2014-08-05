@@ -8,6 +8,12 @@ found [here](http://memcachier-examples-django2.herokuapp.com).
 Detailed instructions for developing this app are available
 [here](https://devcenter.heroku.com/articles/django-memcache).
 
+## Deploy to Heroku
+
+You can deploy this app yourself to Heroku to play with.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 ## Running Locally
 
 Run the following commands to get started running this app locally:
