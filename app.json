@@ -1,5 +1,5 @@
 {
-  "name": "Django + MemCachier + Heroku Tutorial",
+  "name": "Django + MemCachier Tutorial",
   "description": "Python Django (1.6) app for a tutorial on using Django, MemCachier and Heroku together",
   "repository": "https://github.com/memcachier/examples-django2",
   "logo": "https://www.memcachier.com/assets/logo-large.png",
