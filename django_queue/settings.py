@@ -18,7 +18,7 @@ def get_cache():
     os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '')
 
     # Configure cache settings
-    CACHES = {
+    return {
         'default': {
             # Use pylibmc
             'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
