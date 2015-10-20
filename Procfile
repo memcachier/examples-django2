@@ -1,1 +1,1 @@
-web: gunicorn -b '127.0.0.1:8000' django_queue.wsgi
+web: gunicorn django_queue.wsgi
