@@ -1,8 +1,13 @@
 {
   "name": "Django + MemCachier Tutorial",
   "description": "Python Django (1.6) app for a tutorial on using Django, MemCachier and Heroku together",
-  "repository": "https://github.com/memcachier/examples-django2",
-  "logo": "https://www.memcachier.com/assets/logo-large.png",
   "keywords": ["python", "django", "memcache", "memcachier", "caching", "tutorial" ],
-  "addons": [ "memcachier" ]
+  "logo": "https://www.memcachier.com/assets/logo-large.png",
+  "image": "heroku/python",
+  "website": "https://www.memcachier.com",
+  "repository": "https://github.com/memcachier/examples-django2",
+  "addons": [ "memcachier" ],
+  "scripts": {
+    "postdeploy": "python manage.py syncdb"
+  }
 }
