@@ -1,1 +1,1 @@
-web: gunicorn django_queue.wsgi
+web: gunicorn django_queue.wsgi --log-file -

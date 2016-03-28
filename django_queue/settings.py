@@ -80,6 +80,15 @@ DATABASES = {'default': dj_database_url.config(default=sqlite_db)}
 ## EVERYTHING BELOW IS CONFIGURATION UNRELATED TO THIS MEMCACHIER TUTORIAL
 ## =======================================================================
 
+## Static Assets & Heroku
+## ======================
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_ROOT, 'static')
+]
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = ()
@@ -92,11 +101,6 @@ USE_L10N = True
 USE_TZ = True
 MEDIA_ROOT = ''
 MEDIA_URL = ''
-STATIC_ROOT = ''
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    "static/"
-]
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -123,7 +127,7 @@ ROOT_URLCONF = 'django_queue.urls'
 WSGI_APPLICATION = 'django_queue.wsgi.application'
 
 TEMPLATE_DIRS = (
-    "templates",
+    os.path.join(PROJECT_ROOT, 'templates'),
 )
 
 INSTALLED_APPS = (
