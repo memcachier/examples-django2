@@ -18,7 +18,7 @@ You can deploy this app yourself to Heroku to play with.
 
 Run the following commands to get started running this app locally:
 
-~~~~ .sh
+```sh
 $ git clone https://github.com/memcachier/examples-django2.git
 $ cd examples-django2
 $ virtualenv -p python2 venv
@@ -26,7 +26,7 @@ $ source venv/bin/activate
 $ pip install -r requirements.txt
 $ python manage.py syncdb
 $ python manage.py runserver
-~~~~
+```
 
 Then visit `http://localhost:8000` to play with the app.
 
@@ -34,7 +34,7 @@ Then visit `http://localhost:8000` to play with the app.
 
 Run the following commands to deploy the app to Heroku:
 
-~~~~ .sh
+```sh
 $ git clone https://github.com/memcachier/examples-django2.git
 $ cd examples-django2
 $ heroku create
@@ -45,7 +45,7 @@ $ heroku addons:add memcachier:25
 $ git push heroku master
 $ heroku run python manage.py syncdb
 $ heroku open
-~~~~
+```
 
 Note: when running `syncdb` you will be prompted to create a
 superuser. Respond with `no`.
