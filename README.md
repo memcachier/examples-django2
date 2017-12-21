@@ -1,12 +1,16 @@
-# MemCachier on Heroku and Django tutorial
+# MemCachier and Django on Heroku tutorial
 
-This is an example Django (1.6) queue app (first in, first out) that
+This is an example Django 2.0 queue app (first in, first out) that
 uses the [MemCachier add-on](https://addons.heroku.com/memcachier) in
 [Heroku](http://www.heroku.com/). A running version of this app can be
 found [here](http://memcachier-examples-django2.herokuapp.com).
 
 Detailed instructions for developing this app are available
 [here](https://devcenter.heroku.com/articles/django-memcache).
+
+*Note: this example works with Python 3 and Django 2.0. It should also work for
+Django 1.11. For older versions please check out our previous Django 1.6
+[version](https://github.com/memcachier/examples-django2/tree/django1.6)*
 
 ## Deploy to Heroku
 
@@ -24,7 +28,8 @@ $ cd examples-django2
 $ virtualenv -p python2 venv
 $ source venv/bin/activate
 $ pip install -r requirements.txt
-$ python manage.py syncdb
+$ python manage.py makemigrations mc_queue
+$ python manage.py migrate
 $ python manage.py runserver
 ```
 
@@ -38,17 +43,14 @@ Run the following commands to deploy the app to Heroku:
 $ git clone https://github.com/memcachier/examples-django2.git
 $ cd examples-django2
 $ heroku create
-Creating high-flower-8873... done, stack is cedar
-http://high-flower-8873.herokuapp.com/ | git@heroku.com:high-flower-8873.git
-Git remote heroku added
-$ heroku addons:add memcachier:25
+Creating app... done, ⬢ rocky-chamber-17110
+https://rocky-chamber-17110.herokuapp.com/ | https://git.heroku.com/rocky-chamber-17110.git
+$ heroku addons:create memcachier:dev
 $ git push heroku master
-$ heroku run python manage.py syncdb
+$ heroku run python manage.py makemigrations mc_queue
+$ heroku run python manage.py migrate
 $ heroku open
 ```
-
-Note: when running `syncdb` you will be prompted to create a
-superuser. Respond with `no`.
 
 ## Configuring MemCachier (settings.py)
 
@@ -57,68 +59,52 @@ to setup your environment, because pylibmc expects different environment
 variables than MemCachier provides. Somewhere in your `settings.py` file you
 should have the following lines:
 
-~~~~ .python
-os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', '').replace(',', ';')
-os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '')
-os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '')
+```python
+servers = os.environ['MEMCACHIER_SERVERS']
+username = os.environ['MEMCACHIER_USERNAME']
+password = os.environ['MEMCACHIER_PASSWORD']
 
 CACHES = {
     'default': {
-        # Use pylibmc
-        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
-
-        # Use binary memcache protocol (needed for authentication)
-        'BINARY': True,
-
+        # Use Django's native pylibmc backend (since Django 1.11, use
+        # django-pylibmc for older versions)
+        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
         # TIMEOUT is not the connection timeout! It's the default expiration
         # timeout that should be applied to keys! Setting it to `None`
         # disables expiration.
         'TIMEOUT': None,
+        'LOCATION': servers,
         'OPTIONS': {
-            # Enable faster IO
-            'no_block': True,
-            'tcp_nodelay': True,
-
-            # Keep connection alive
-            'tcp_keepalive': True,
-
-            # Timeout for set/get requests (sadly timeouts don't mark a
-            # server as failed, so failover only works when the connection
-            # is refused)
-            '_poll_timeout': 2000,
-
-            # Use consistent hashing for failover
-            'ketama': True,
-
-            # Configure failover timings
-            'connect_timeout': 2000,
-            'remove_failed': 4,
-            'retry_timeout': 2,
-            'dead_timeout': 10
+            # Use binary memcache protocol (needed for authentication)
+            'binary': True,
+            'username': username,
+            'password': password,
+            'behaviors': {
+                # Enable faster IO
+                'no_block': True,
+                'tcp_nodelay': True,
+                # Keep connection alive
+                'tcp_keepalive': True,
+                # Timeout settings
+                'connect_timeout': 2000, # ms
+                'send_timeout': 750 * 1000, # us
+                'receive_timeout': 750 * 1000, # us
+                # Timeout for set/get requests (sadly timeouts don't mark a
+                # server as failed, so failover only works when the connection
+                # is refused)
+                '_poll_timeout': 2000, # ms
+                # Better failover
+                'ketama': True,
+                'remove_failed': 1,
+                'retry_timeout': 2,
+                'dead_timeout': 30,
+            }
         }
     }
 }
-~~~~
+```
 
 Feel free to change the `_poll_timeout` setting to match your needs.
-
-## Persistent Connections
-
-By default, Django doesn't use persistent connections with memcached. This is a
-huge performance problem, especially when using SASL authentication as the
-connection setup is even more expensive than normal.
-
-You can fix this by putting the following code in your `wsgi.py` file:
-
-~~~~ .python
-# Fix django closing connection to MemCachier after every request (#11331)
-from django.core.cache.backends.memcached import BaseMemcachedCache
-BaseMemcachedCache.close = lambda self, **kwargs: None
-
-~~~~
-
-There is a bug file against Django for this issue
-([#11331](https://code.djangoproject.com/ticket/11331)).
 
 ## Get involved!
 
@@ -135,4 +121,3 @@ Master [git repository](http://github.com/memcachier/examples-django2):
 ## Licensing
 
 This library is BSD-licensed.
-
