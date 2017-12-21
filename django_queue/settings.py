@@ -133,6 +133,10 @@ def get_cache():
     return {
       'default': {
         'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+        # TIMEOUT is not the connection timeout! It's the default expiration
+        # timeout that should be applied to keys! Setting it to `None`
+        # disables expiration.
+        'TIMEOUT': None,
         'LOCATION': servers,
         'OPTIONS': {
           'binary': True,
