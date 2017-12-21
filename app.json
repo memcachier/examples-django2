@@ -1,6 +1,6 @@
 {
   "name": "MemCachier Django Tutorial",
-  "description": "Python Django (1.6) app for a tutorial on using Django, MemCachier and Heroku together",
+  "description": "Python Django (2.0) app for a tutorial on using Django, MemCachier and Heroku together",
   "keywords": ["python", "django", "memcache", "memcachier", "caching", "tutorial", "performance" ],
   "logo": "https://www.memcachier.com/assets/logo-large.png",
   "image": "heroku/python",
@@ -8,6 +8,6 @@
   "repository": "https://github.com/memcachier/examples-django2",
   "addons": [ "memcachier" ],
   "scripts": {
-    "postdeploy": "python manage.py syncdb --noinput"
+    "postdeploy": "python manage.py makemigrations mc_queue && python manage.py migrate"
   }
 }
