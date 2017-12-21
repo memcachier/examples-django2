@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MemCachier Django caching tutorial</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MemCachier Django Example">
+  <meta name="author" content="MemCachier">
+
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+  <style type="text/css">
+    /* Set the fixed height of the footer here */
+    #push,
+    #footer {
+      height: 66px;
+    }
+    #footer {
+      background-color: #f5f5f5;
+    }
+    /* No bullets on queue items */
+    ul li {
+      list-style-type: none;
+    }
+    /* Custom page CSS */
+    .container {
+      width: auto;
+      max-width: 680px;
+    }
+    .credit {
+      margin: 20px 0;
+    }
+    .brand {
+      padding-left:8px;
+      padding-right:3px;
+      padding-bottom:3px;
+    }
+  </style>
+
+  <link rel="shortcut icon" href="https://www.memcachier.com/favicon.ico">
+</head>
+<body>
+  <div class="container">
+    <!-- Begin page content -->
+      <div class="page-header">
+        <h1>Queue</h1>
+      </div>
+
+      <p class="lead">MemCachier Django Caching tutorial. This demonstrates the
+        use of Memcached to create a simple queue. Items are added to the back
+        and removed from the front of the queue, ala first-in-first-out
+        (FIFO).</p>
+
+      {% csrf_token %}
+      <input type="text" id="item" placeholder="Type something ..." />
+      <input class="btn" type="button" value="Add" data-submit-item="true" />
+
+      <p><strong class="lead">front</strong></p>
+      <ul id="item-list">
+        {% for item in queue %}
+          <li class="lead text-info">{{ item.text }}</li>
+        {% endfor %}
+      </ul>
+      <p><strong class="lead">back</strong></p>
+      <p><a href="/remove">remove</a></p>
+
+      <div id="push"></div>
+  </div>
+
+  <div id="footer" class="navbar-fixed-bottom">
+    <div class="container">
+      <p class="credit">Example by
+        <a href="http://www.memcachier.com">
+          <img class="brand" src="https://www.memcachier.com/assets/logo-small.png"
+               alt="MemCachier" title="MemCachier"/>
+          MemCachier
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+    $(function() {
+      $("input[data-submit-item]").on("click", function(e) {
+        $.ajax({
+          type: "POST",
+          url: "/add",
+          data: {
+            "text": $("#item").val(),
+            "csrfmiddlewaretoken": $('input[name~="csrfmiddlewaretoken"]').val()
+          },
+          success: function(data) {
+            $("<li/>", { class: 'lead text-info', html: data }).
+              appendTo($("#item-list"));
+            $("#item").val("");
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
