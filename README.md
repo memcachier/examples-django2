@@ -1,12 +1,9 @@
-# MemCachier and Django on Heroku tutorial
+# MemCachier and Django on Heroku
 
 This is an example Django 2.0 queue app (first in, first out) that
 uses the [MemCachier add-on](https://addons.heroku.com/memcachier) in
 [Heroku](http://www.heroku.com/). A running version of this app can be
 found [here](http://memcachier-examples-django2.herokuapp.com).
-
-Detailed instructions for developing this app are available
-[here](https://devcenter.heroku.com/articles/django-memcache).
 
 *Note: this example works with Python 3 and Django 2.0. It should also work for
 Django 1.11. For older versions please check out our previous Django 1.6
