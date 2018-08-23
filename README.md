@@ -22,10 +22,9 @@ Run the following commands to get started running this app locally:
 ```sh
 $ git clone https://github.com/memcachier/examples-django2.git
 $ cd examples-django2
-$ virtualenv -p python2 venv
+$ python -m venv venv
 $ source venv/bin/activate
 $ pip install -r requirements.txt
-$ python manage.py makemigrations mc_queue
 $ python manage.py migrate
 $ python manage.py runserver
 ```
@@ -42,9 +41,9 @@ $ cd examples-django2
 $ heroku create
 Creating app... done, ⬢ rocky-chamber-17110
 https://rocky-chamber-17110.herokuapp.com/ | https://git.heroku.com/rocky-chamber-17110.git
+$ heroku addons:create heroku-postgresql:hobby-dev
 $ heroku addons:create memcachier:dev
 $ git push heroku master
-$ heroku run python manage.py makemigrations mc_queue
 $ heroku run python manage.py migrate
 $ heroku open
 ```
